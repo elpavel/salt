@@ -2072,7 +2072,7 @@ def test_privileges_grant_function():
             password="testpassword",
         )
 
-        query = 'GRANT ALL ON TABLE public."fawl" TO "baruwa"'
+        query = 'GRANT ALL ON FUNCTION public."fawl" TO "baruwa"'
 
         postgres._run_psql.assert_called_once_with(
             [
@@ -2099,7 +2099,7 @@ def test_privileges_grant_function():
             runas="user",
         )
 
-    # Test grant on all tables
+    # Test grant on all functions
     with patch(
         "salt.modules.postgres._run_psql", Mock(return_value={"retcode": 0})
     ), patch("salt.utils.path.which", MagicMock(return_value="/usr/bin/pgsql")), patch(
@@ -2109,7 +2109,7 @@ def test_privileges_grant_function():
             "baruwa",
             "ALL",
             "function",
-            "SELECT",
+            "EXECUTE",
             maintenance_db="db_name",
             runas="user",
             host="testhost",
@@ -2118,7 +2118,7 @@ def test_privileges_grant_function():
             password="testpassword",
         )
 
-        query = 'GRANT SELECT ON ALL FUNCTIONS IN SCHEMA public TO "baruwa"'
+        query = 'GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO "baruwa"'
 
         postgres._run_psql.assert_called_once_with(
             [
